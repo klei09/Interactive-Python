@@ -1,0 +1,87 @@
+# template for "Stopwatch: The Game"
+import simplegui
+
+# define global variables
+t = 0
+t1 = 0
+t2 = 0
+score1 = 0
+score2 = 0
+running = False
+
+# define helper function format that converts time
+# in tenths of seconds into formatted string A:BC.D
+def format(t):
+    mini_seconds = t % 10
+    minutes = t // 600
+    seconds = (t - minutes * 600) // 10
+    if seconds < 10:
+        return str(minutes)+':0'+str(seconds)+'.'+str(mini_seconds)
+    else:
+        return str(minutes)+':'+str(seconds)+'.'+str(mini_seconds)
+    
+# define event handlers for buttons; "Start", "Stop", "Reset"
+def start():
+    timer.start()
+    global running
+    running = True
+    
+def stop():
+    timer.stop()
+    
+        
+def reset():
+    global t, score1, score2, t1, t2
+    t = 0
+    t1 = 0
+    t2 = 0
+    score1 = 0
+    score2 = 0
+    if running:
+        timer.stop()
+
+# define event handler for timer with 0.1 sec interval
+def tick():
+    global t
+    t += 1
+    
+
+# define draw handler
+def draw(canvas):
+    canvas.draw_text(format(t), [290, 320], 100, 'White')
+    canvas.draw_text(str(score1), [60, 60], 70, 'Red')
+    canvas.draw_text(str(score2), [700, 60], 70, 'Red')
+    canvas.draw_text(format(t1), [10, 120], 60, 'Yellow')
+    canvas.draw_text(format(t2), [640, 120], 60, 'Yellow')
+    
+def keydown(key):
+    global score1, score2, running, t1, t2
+    if key == simplegui.KEY_MAP['z'] and running:
+        t1 = t
+        if t % 10 == 0:
+            score1 += 3
+        else:
+            score1 -= 1
+    if key == simplegui.KEY_MAP['m'] and running:
+        t2 = t
+        if t % 10 == 0:
+            score2 += 3
+        else:
+            score2 -= 1
+        
+# create frame
+frame = simplegui.create_frame('Stopwatch: The Game', 800, 500)
+
+# register event handlers
+timer = simplegui.create_timer(100, tick)
+frame.set_draw_handler(draw)
+frame.set_keydown_handler(keydown)
+frame.add_button('Start', start, 100)
+frame.add_button('Stop', stop, 100)
+frame.add_button('Reset', reset, 100)
+
+# start frame
+frame.start()
+
+
+# Please remember to review the grading rubric
