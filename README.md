@@ -1,3 +1,3 @@
 # Interactive-Python
 
-The coding was built for Course: Introduction to interactive python programming. The code can be run in CodeSkulptor([https://py3.codeskulptor.org/]).
+The coding were built for Course: Introduction to Interactive Python Programming. They can be run in CodeSkulptor([https://py3.codeskulptor.org/]).
